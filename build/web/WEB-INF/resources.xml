@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+  <Resource id="GameDB" type="javax.sql.DataSource">#Tue Apr 26 12:21:25 EEST 2016
+jdbcDriver=org.apache.derby.jdbc.ClientDriver
+password=game
+userName=game
+jdbcUrl=jdbc\:derby\://localhost\:1527/GameDB
+</Resource>
+</resources>
