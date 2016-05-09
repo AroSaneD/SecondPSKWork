@@ -106,7 +106,7 @@ public class RegistrationComponent implements Serializable {
                 try{
                     player.setPlayername(playerName);
                     em.persist(player); //Probably not necessary, but not sure enough
-                    em.joinTransaction();
+                    //em.joinTransaction();
                     em.flush();
                     conversation.end();
                 }
@@ -115,7 +115,7 @@ public class RegistrationComponent implements Serializable {
                 }
                 
                 try{
-                    this.gameManager.setPlayer(player);
+                    this.gameManager.setPlayer(player); //em.flush doesnt appear to work. Because this does not find a player in the database
                 }
                 catch(Exception e){
                     
