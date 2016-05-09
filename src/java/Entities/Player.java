@@ -6,18 +6,23 @@
 package Entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Player.findAll", query = "SELECT p FROM Player p"),
     @NamedQuery(name = "Player.findById", query = "SELECT p FROM Player p WHERE p.id = :id"),
+    @NamedQuery(name = "Player.findByUid", query = "SELECT p FROM Player p WHERE p.uid = :uid"),
     @NamedQuery(name = "Player.findByPlayername", query = "SELECT p FROM Player p WHERE p.playername = :playername"),
     @NamedQuery(name = "Player.findByPlayerpoints", query = "SELECT p FROM Player p WHERE p.playerpoints = :playerpoints"),
     @NamedQuery(name = "Player.findByPassword", query = "SELECT p FROM Player p WHERE p.password = :password"),
@@ -41,6 +47,11 @@ public class Player implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "UID")
+    private String uid;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -61,10 +72,10 @@ public class Player implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "EMAIL")
     private String email;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "playertwo", fetch = FetchType.EAGER)
-//    private List<Gamematch> gamematchList;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "playerone", fetch = FetchType.EAGER)
-//    private List<Gamematch> gamematchList1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "playertwo", fetch = FetchType.EAGER)
+    private List<Gamematch> gamematchList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "playerone", fetch = FetchType.EAGER)
+    private List<Gamematch> gamematchList1;
 
     public Player() {
     }
@@ -73,8 +84,9 @@ public class Player implements Serializable {
         this.id = id;
     }
 
-    public Player(Integer id, String playername, int playerpoints, String password, String email) {
+    public Player(Integer id, String uid, String playername, int playerpoints, String password, String email) {
         this.id = id;
+        this.uid = uid;
         this.playername = playername;
         this.playerpoints = playerpoints;
         this.password = password;
@@ -87,6 +99,14 @@ public class Player implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getPlayername() {
@@ -121,23 +141,24 @@ public class Player implements Serializable {
         this.email = email;
     }
 
-//    @XmlTransient
-//    public List<Gamematch> getGamematchList() {
-//        return gamematchList;
-//    }
-//
-//    public void setGamematchList(List<Gamematch> gamematchList) {
-//        this.gamematchList = gamematchList;
-//    }
-//
-//    @XmlTransient
-//    public List<Gamematch> getGamematchList1() {
-//        return gamematchList1;
-//    }
-//
-//    public void setGamematchList1(List<Gamematch> gamematchList1) {
-//        this.gamematchList1 = gamematchList1;
-//    }
+    @XmlTransient
+    public List<Gamematch> getGamematchList() {
+        return gamematchList;
+    }
+
+    public void setGamematchList(List<Gamematch> gamematchList) {
+        this.gamematchList = gamematchList;
+    }
+
+    @XmlTransient
+    public List<Gamematch> getGamematchList1() {
+        return gamematchList1;
+    }
+
+    public void setGamematchList1(List<Gamematch> gamematchList1) {
+        this.gamematchList1 = gamematchList1;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -162,5 +183,5 @@ public class Player implements Serializable {
     public String toString() {
         return "Entities.Player[ id=" + id + " ]";
     }
-
+    
 }

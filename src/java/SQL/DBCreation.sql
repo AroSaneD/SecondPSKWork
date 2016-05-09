@@ -19,7 +19,7 @@ UID                 VARCHAR(255)            UNIQUE NOT NULL,
 PlayerName          VARCHAR(255)            UNIQUE NOT NULL,
 PlayerPoints        INTEGER                 NOT NULL DEFAULT 0,
 Password            VARCHAR(255)            NOT NULL,
-Email               VARCHAR(255)            NOT NULL,
+Email               VARCHAR(255)            UNIQUE NOT NULL,
 
 PRIMARY KEY (ID)
 );

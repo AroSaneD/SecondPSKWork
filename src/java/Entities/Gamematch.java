@@ -63,10 +63,10 @@ public class Gamematch implements Serializable {
     private Date dateplayed;
     @JoinColumn(name = "PLAYERTWO", referencedColumnName = "ID")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Player playerTwo;
+    private Player playertwo;
     @JoinColumn(name = "PLAYERONE", referencedColumnName = "ID")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Player playerOne;
+    private Player playerone;
 
     public Gamematch() {
     }
@@ -122,20 +122,20 @@ public class Gamematch implements Serializable {
         this.dateplayed = dateplayed;
     }
 
-    public Player getPlayerTwo() {
-        return playerTwo;
+    public Player getPlayertwo() {
+        return playertwo;
     }
 
-    public void setPlayerTwo(Player playerTwo) {
-        this.playerTwo = playerTwo;
+    public void setPlayertwo(Player playertwo) {
+        this.playertwo = playertwo;
     }
 
-    public Player getPlayerOne() {
-        return playerOne;
+    public Player getPlayerone() {
+        return playerone;
     }
 
-    public void setPlayerOne(Player playerOne) {
-        this.playerOne = playerOne;
+    public void setPlayerone(Player playerone) {
+        this.playerone = playerone;
     }
 
     @Override
@@ -162,5 +162,5 @@ public class Gamematch implements Serializable {
     public String toString() {
         return "Entities.Gamematch[ id=" + id + " ]";
     }
-
+    
 }
