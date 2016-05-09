@@ -12,6 +12,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import managers.GameManager;
 import managers.PlayerManager;
 
 /**
@@ -21,6 +22,9 @@ import managers.PlayerManager;
 @Named
 @SessionScoped
 public class RegistrationComponent implements Serializable {
+    
+    @Inject 
+    private GameManager gameManager;
     
     @Inject
     private PlayerManager playerManager;
@@ -71,6 +75,7 @@ public class RegistrationComponent implements Serializable {
             Player player = playerManager.createPlayer(email, password, playerName);
             
             if(player != null){
+                this.gameManager.setPlayer(player);
                 return "success";
             }
             else{

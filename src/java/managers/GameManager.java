@@ -8,6 +8,7 @@ package managers;
 import Entities.Player;
 import javax.ejb.Stateful;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -16,6 +17,10 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 @Stateful
 public class GameManager {
+    
+    @Inject
+    private SessionManager sessionManager;
+    
     Player player;
 
     public Player getPlayer() {
@@ -23,6 +28,7 @@ public class GameManager {
     }
 
     public void setPlayer(Player player) {
+        sessionManager.UpdateSession(player);
         this.player = player;
     }
 }
