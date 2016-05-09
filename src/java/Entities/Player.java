@@ -6,7 +6,6 @@
 package Entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -20,8 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -41,8 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Player.findByPlayername", query = "SELECT p FROM Player p WHERE p.playername = :playername"),
     @NamedQuery(name = "Player.findByPlayerpoints", query = "SELECT p FROM Player p WHERE p.playerpoints = :playerpoints"),
     @NamedQuery(name = "Player.findByPassword", query = "SELECT p FROM Player p WHERE p.password = :password"),
-    @NamedQuery(name = "Player.findByEmail", query = "SELECT p FROM Player p WHERE p.email = :email"),
-    @NamedQuery(name = "Player.findByLastlogin", query = "SELECT p FROM Player p WHERE p.lastlogin = :lastlogin")})
+    @NamedQuery(name = "Player.findByEmail", query = "SELECT p FROM Player p WHERE p.email = :email")})
 public class Player implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -64,6 +61,7 @@ public class Player implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "PLAYERPOINTS")
+    @Version
     private int playerpoints;
     @Basic(optional = false)
     @NotNull
@@ -76,10 +74,7 @@ public class Player implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "EMAIL")
     private String email;
-    @Column(name = "LASTLOGIN")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastlogin;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "playertwo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "playertwo", fetch = FetchType.EAGER)
     private List<Gamematch> gamematchList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "playerone", fetch = FetchType.EAGER)
     private List<Gamematch> gamematchList1;
@@ -148,14 +143,6 @@ public class Player implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Date getLastlogin() {
-        return lastlogin;
-    }
-
-    public void setLastlogin(Date lastlogin) {
-        this.lastlogin = lastlogin;
     }
 
     @XmlTransient

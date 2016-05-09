@@ -48,21 +48,17 @@ public class Gamematch implements Serializable {
     private Integer id;
     @Column(name = "VICTORIOUSPLAYER")
     private Integer victoriousplayer;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "PLAYERONESCORE")
-    private int playeronescore;
-    @Basic(optional = false)
-    @NotNull
+    private Integer playeronescore;
     @Column(name = "PLAYERTWOSCORE")
-    private int playertwoscore;
+    private Integer playertwoscore;
     @Basic(optional = false)
     @NotNull
     @Column(name = "DATEPLAYED")
     @Temporal(TemporalType.DATE)
     private Date dateplayed;
     @JoinColumn(name = "PLAYERTWO", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Player playertwo;
     @JoinColumn(name = "PLAYERONE", referencedColumnName = "ID")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -75,10 +71,8 @@ public class Gamematch implements Serializable {
         this.id = id;
     }
 
-    public Gamematch(Integer id, int playeronescore, int playertwoscore, Date dateplayed) {
+    public Gamematch(Integer id, Date dateplayed) {
         this.id = id;
-        this.playeronescore = playeronescore;
-        this.playertwoscore = playertwoscore;
         this.dateplayed = dateplayed;
     }
 
@@ -98,19 +92,19 @@ public class Gamematch implements Serializable {
         this.victoriousplayer = victoriousplayer;
     }
 
-    public int getPlayeronescore() {
+    public Integer getPlayeronescore() {
         return playeronescore;
     }
 
-    public void setPlayeronescore(int playeronescore) {
+    public void setPlayeronescore(Integer playeronescore) {
         this.playeronescore = playeronescore;
     }
 
-    public int getPlayertwoscore() {
+    public Integer getPlayertwoscore() {
         return playertwoscore;
     }
 
-    public void setPlayertwoscore(int playertwoscore) {
+    public void setPlayertwoscore(Integer playertwoscore) {
         this.playertwoscore = playertwoscore;
     }
 

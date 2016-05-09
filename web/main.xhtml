@@ -13,7 +13,12 @@ and open the template in the editor.
     </h:head>
     <h:body>
         <h1>
-            Welcome to the main page
+            Welcome, #{gameManager.player.playername}!
         </h1>
+        <h:form>
+            <h:outputLabel for="score" value="Your total points: #{gameManager.player.playerpoints}" />
+            <br />
+            <h:commandButton value="Play game." action="#{matchComponent.playGame}"/>
+        </h:form>
     </h:body>
 </html>

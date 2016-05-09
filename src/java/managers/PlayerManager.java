@@ -63,12 +63,6 @@ public class PlayerManager {
 
         em.persist(player);
         return player;
-//        try{
-//            
-//        }
-//        catch(Exception e){
-//            return null;
-//        }
     }
 
     public boolean isEmailTaken(String email) {
@@ -77,5 +71,13 @@ public class PlayerManager {
 
     public boolean isPlayerNameTaken(String playerName) {
         return this.getPlayerByName(playerName) != null;
+    }
+
+    public void updatePlayerScore(Player player, Integer playeronescore) {
+        player = this.getPlayerByEmail(player.getEmail());
+        player.setPlayerpoints(player.getPlayerpoints() + playeronescore);
+        //More score related actions here
+        
+        em.persist(player);
     }
 }

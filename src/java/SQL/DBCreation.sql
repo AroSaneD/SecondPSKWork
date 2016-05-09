@@ -21,7 +21,6 @@ PlayerName          VARCHAR(255)            UNIQUE NOT NULL,
 PlayerPoints        INTEGER                 NOT NULL DEFAULT 0,
 Password            VARCHAR(255)            NOT NULL,
 Email               VARCHAR(255)            UNIQUE NOT NULL,
-LastLogin           TIMESTAMP               ,
 
 PRIMARY KEY (ID)
 );
@@ -32,10 +31,10 @@ CREATE TABLE GameMatch
 ID                  INTEGER                 GENERATED ALWAYS AS IDENTITY
                                             (START WITH 1, INCREMENT BY 1),
 PlayerOne           INTEGER                 NOT NULL,
-PlayerTwo           INTEGER                 NOT NULL,
+PlayerTwo           INTEGER                 ,
 VictoriousPlayer    INTEGER                 ,
-PlayerOneScore      DECIMAL                 NOT NULL,
-PlayerTwoScore      DECIMAL                 NOT NULL,
+PlayerOneScore      DECIMAL                 ,
+PlayerTwoScore      DECIMAL                 ,
 DatePlayed          DATE                    NOT NULL,
 
 PRIMARY KEY (ID),

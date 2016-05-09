@@ -104,9 +104,9 @@ public class RegistrationComponent implements Serializable {
             if(player != null){
                 
                 try{
+                    em.joinTransaction();
                     player.setPlayername(playerName);
                     em.persist(player); //Probably not necessary, but not sure enough
-                    //em.joinTransaction();
                     em.flush();
                     conversation.end();
                 }
