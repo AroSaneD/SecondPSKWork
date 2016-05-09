@@ -15,7 +15,7 @@ and open the template in the editor.
         <h1>
             Welcome to the register page
         </h1>
-        <h:form>
+        <h:form id="forma">
             <h:outputLabel for="playername" value="password " />
             <h:inputText id="playerName" value="#{registrationComponent.playerName}" required="true" p:type="text" p:placeholder="Enter desired player name">    
             </h:inputText>
@@ -25,7 +25,7 @@ and open the template in the editor.
             <h:outputLabel value="#{registrationComponent.errorMessage}" style="color: red;" />
             <br />
             
-            <h:commandButton value="Register" action="#{registrationComponent.endRegister}" immediate="true" />
+            <h:commandButton value="Register" action="#{registrationComponent.endRegister}"/>
         </h:form>
     </h:body>
 </html>
