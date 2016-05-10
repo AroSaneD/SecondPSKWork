@@ -1,0 +1,48 @@
+
+    Įgyvendinti užklausos tipo sistemos panaudos atvejį pagal skaidrėse 30b - Java EE based 3-tier System Design Recommendations.pdf pateiktą metodiką:
+
++	
+        panaudos atvejo įgyvendinimo bendradarbiavimo diagramą atsinešti į pratybas (UML nebūtinas, galima piešti ranka ant popieriaus); turi būti panaudoti min. 3 EJB/CDI komponentai - panaudos atvejo kontroleris + 2 paslaugų (service) komponentai. Abu paslaugų komopnentai turi daryti DB pakeitimus (SQL INSERT arba UPDATE) [0.1 balo]
+			zaidimai: saugomas zaidimas ir update'inamas zaidejas
+		
+        paaiškinti, kada prasideda/baigiasi transakcija, pademonstruoti transakcijų paskolinimo (propagation) būdus: 
++		a) antras komponentas įsijungia į jau egzistuojančią transakciją; 
+~		b) antras komponentas pradeda naują transakciją [0.1 balo] 
+			cia turima omeny be REQUIRES_NEW?
+			
+		
+		paaiškinti, kada sukuriamas/sunaikinamas transakcinis saugojimo kontekstas (transactional Persistence Context), paaiškinti, kada duomenų pakeitimai  įrašomi į DB (kada realiai įvykdomi SQL INSERT/UPDATE sakiniai) [0.1 balo]
++			kai pasibaigia kontekstas (pvz, RequestScoped, tai pasibaigs iskart jam pabaigus savo darba) <- check validity of this
+			pre JPA 2.1 <- default kai baigias metodas
+		
+    Įgyvendinti dialogo tipo sistemos panaudos atvejį pagal skaidrėse 30b - Java EE based 3-tier System Design Recommendations.pdf pateiktą metodiką:
+	
++
+		panaudos atvejo įgyvendinimo bendradarbiavimo diagramą atsinešti į pratybas (UML nebūtinas, galima piešti ranka ant popieriaus); turi būti panaudoti 	min. 3 EJB/CDI komponentai - panaudos atvejo kontroleris + 2 paslaugų (service) komponentai. Abu paslaugų komopnentai turi daryti DB pakeitimus (SQL INSERT arba UPDATE) [0.1 balo]
+			registracija: sukuriamas naujas vartotojas ir sukuriamas prisijungimo israsas
+		
++       paaiškinti, kada sukuriamas/sunaikinamas išplėstinis saugojimo kontekstas (extended PersistenceContext) [0.1 balo]
+			http://stackoverflow.com/questions/2547817/what-is-the-difference-between-transaction-scoped-persistence-context-and-extend
+			
++       panaudoti ir paaiškinti CDI dialogo kontekstą (conversation scope) - kada jis prasideda, baigiasi [0.1 balo]
+			request <- iskart po uzklausos
+			session <- kai uzdaromas tab
+			application <- kai nustojama dirbti 
+			
++       gebėti paaiškinti, kodėl dialogo tipo panaudos atvejui reikalingas extended ir unsynchronized PersistenceContext [0.1 balo]
+			extended - kad nepradingtu siuo metu naudojami duomenys (kontekstas, transakcija, scope ir t.t.)
+			unsynchronized - leidzia paciam pasirinkti kada flush'int EM
+		
+        Pademonstruoti optimistinį duomenų rakinimą ir problemų aptikimą [0.1 balo]
+			opt duom rakinimas - kai prie lauko prirasoma @Version notacija. Sitokiu budu, java isimina lauko reikmes versijos numeri, ir saugodama nauja reiksme i duombaze patikrina ar versija nepasikete, jei pasikeite ismetama OptimisticLockException.
+			problemu aptikima?
+			
+		
+    Laisvai pasirinktame sistemos panaudos atvejyje:
+	
++		pademonstruoti JPA užklausos su parametrais vykdymą (parametrų perdavimą), žinoti kaip apsisaugoma nuo SQL injection atakų [0.1 balo]
+
++		
+        pademonstruoti saugojimo konteksto paskolinimą (Persistence Context propagation), žinoti, kam to reikia bei kada kontekstas nėra paskolinamas (transakcinis atributas REQUIRES_NEW, asinchroninis komunikavimas) [0.1 balo]
+			paskolinamas - kai is vieno state perduodama i kita (pvz komponentas kvieciamas is komponento)
+			neskolinamas - kai REQUIRES_NEW uzdetas (yra, bet uzkomentuota, nes sugadins programos darba)
