@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>SecondPSKWork</title>
+    </h:head>
+    <h:body>
+        <h1>
+            Welcome to the register page
+        </h1>
+        <h:form>
+            <h:outputLabel for="email" value="Email address: " />
+            <h:inputText id="email" value="#{registrationComponent.email}" 
+                         required="true" p:type="text" 
+                         p:placeholder="Enter email">    
+            </h:inputText>
+            <br />
+            <h:outputLabel for="password" value="Password: " />
+            <h:inputText id="password" value="#{registrationComponent.password}" 
+                         required="true" p:type="password" 
+                         p:placeholder="">    
+            </h:inputText>
+            <br />
+            
+            <h:message for="email" style="color: red" />
+            <h:message for="password" style="color: red" />
+            
+            <h:outputLabel value="#{registrationComponent.errorMessage}" 
+                           style="color: red;" />
+            <br />
+            
+            <h:commandButton value="Register" action="#{registrationComponent.beginRegister}"/>
+        </h:form>
+    </h:body>
+</html>

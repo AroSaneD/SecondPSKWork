@@ -9,10 +9,8 @@ import Entities.Player;
 import java.io.Serializable;
 import java.util.UUID;
 import javax.ejb.Stateful;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -22,7 +20,6 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.SynchronizationType;
 import managers.GameManager;
 import managers.PlayerManager;
-import org.hsqldb.Server;
 
 /**
  *
@@ -33,28 +30,28 @@ import org.hsqldb.Server;
 @ConversationScoped
 @Stateful
 public class RegistrationComponent implements Serializable {
-    
+
     @PersistenceContext(type = PersistenceContextType.EXTENDED,
             synchronization = SynchronizationType.UNSYNCHRONIZED,
             unitName = "SecondJavaWorkPU")
     private EntityManager em;
-    
+
     @Inject
     private Conversation conversation;
-    
-    @Inject 
+
+    @Inject
     private GameManager gameManager;
-    
+
     @Inject
     private PlayerManager playerManager;
-    
+
     private String email = null;
     private String password = null;
     private String playerName = null;
     private String errorMessage = null;
 
     private Player player = new Player();
-    
+
     public String getErrorMessage() {
         return errorMessage;
     }
@@ -63,66 +60,73 @@ public class RegistrationComponent implements Serializable {
         this.errorMessage = errorMessage;
     }
 
-    public String getEmail() {return email;}
+    public String getEmail() {
+        return email;
+    }
 
-    public void setEmail(String email) {this.email = email;}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public String getPassword() {return password;}
+    public String getPassword() {
+        return password;
+    }
 
-    public void setPassword(String password) {this.password = password;}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    public String getPlayerName() {return playerName;}
+    public String getPlayerName() {
+        return playerName;
+    }
 
-    public void setPlayerName(String playerName) {this.playerName = playerName;}
-    
-    public String beginRegister(){
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public String beginRegister() {
         //begin registration here
-        if(playerManager.isEmailTaken(this.email)){
+        if (playerManager.isEmailTaken(this.email)) {
             this.errorMessage = "Email is already in use";
             return "failure";
-        }
-        else{
+        } else {
             conversation.begin();
-            player.setEmail(email);
-            player.setPassword(password);
-            player.setUid(UUID.randomUUID().toString());
-            player.setPlayername(UUID.randomUUID().toString());
+            player = playerManager.createPlayer(email, password, UUID.randomUUID().toString());
+//            player.setEmail(email);
+//            player.setPassword(password);
+//            player.setUid(UUID.randomUUID().toString());
+            //player.setPlayername();
             em.persist(player);
             return "success";
         }
     }
-    
-    public String endRegister(){
-        if(playerManager.isPlayerNameTaken(this.playerName)){
+
+    public String endRegister() {
+        if (playerManager.isPlayerNameTaken(this.playerName)) {
             this.errorMessage = "Player name is already taken";
             return "failure";
-        }
-        else{
-            //end scope somehow
-            //Player player = playerManager.createPlayer(email, password, playerName);
-            
-            if(player != null){
-                
-                try{
+        } else //end scope somehow
+        //Player player = playerManager.createPlayer(email, password, playerName);
+        {
+            if (player != null) {
+
+                try {
                     em.joinTransaction();
                     player.setPlayername(playerName);
                     em.persist(player); //Probably not necessary, but not sure enough
                     em.flush();
                     conversation.end();
-                }
-                catch(OptimisticLockException ole){
+                } catch (OptimisticLockException ole) {
                     return "criticalFailure";
                 }
-                
-                try{
+
+                try {
                     this.gameManager.setPlayer(player); //em.flush doesnt appear to work. Because this does not find a player in the database
-                }
-                catch(Exception e){
-                    
+                } catch (Exception e) {
+
                 }
                 return "success";
-            }
-            else{
+            } else {
                 this.errorMessage = "Was unable to create player";
                 return "failure";
             }
